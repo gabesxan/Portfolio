@@ -1,27 +1,1831 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  color: #111c42;
-  background: #fff9e8;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  color: var(--color-navy-ink);
+  background-color: var(--color-cream-bg);
+  background-image: radial-gradient(
+    rgba(8, 16, 40, 0.055) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
-main,
-header {
-  max-width: 72rem;
-  margin: auto;
-  padding: 1.5rem;
+
+img,
+picture,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
 }
-nav {
+
+a {
+  color: var(--color-blue-vibrant);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-blue-vibrant);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  font-weight: 800;
+  text-decoration: none;
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Shell & Decorative 90s Zine Framing */
+.zine-shell {
+  position: relative;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.zine-corner {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+.zine-corner--top-left {
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 150px;
+  background-image: repeating-conic-gradient(
+    var(--color-blue-vibrant) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 26px 26px;
+  clip-path: polygon(0 0, 100% 0, 35% 100%, 0 100%);
+}
+
+.zine-corner--top-right {
+  top: 0;
+  right: 0;
+  width: 130px;
+  height: 130px;
+  background-image: radial-gradient(
+    var(--color-blue-vibrant) 2.2px,
+    transparent 2.2px
+  );
+  background-size: 9px 9px;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%);
+}
+
+.zine-corner--bottom-left {
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 110px;
+  background-image: radial-gradient(var(--color-navy-ink) 2px, transparent 2px);
+  background-size: 8px 8px;
+  clip-path: polygon(0 0, 85% 100%, 0 100%);
+}
+
+.zine-corner--bottom-right {
+  bottom: 0;
+  right: 0;
+  width: 130px;
+  height: 140px;
+  background-image: repeating-conic-gradient(
+    var(--color-blue-vibrant) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 24px 24px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* Header & Navigation (RF-02) */
+.zine-header {
+  position: relative;
+  z-index: 10;
+  background: var(--color-navy-deep);
+  border-bottom: 4px solid var(--color-navy-ink);
+  padding: 0.85rem 1rem;
+  box-shadow: 0 4px 0 rgba(0, 56, 248, 0.28);
+}
+
+.zine-topbar-inner {
+  max-width: 74rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.zine-brand-badge {
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+  padding: 0.35rem 1rem;
+  border: 3px solid var(--color-navy-ink);
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 var(--color-blue-vibrant);
+}
+
+.zine-brand-text {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  font-style: italic;
+}
+
+.zine-nav {
+  background: var(--color-cream-surface);
+  border: 3px solid var(--color-navy-ink);
+  padding: 0.4rem 0.9rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  box-shadow: 4px 4px 0 var(--color-blue-light);
+}
+
+.zine-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.zine-nav-slash {
+  color: var(--color-blue-vibrant);
+  font-weight: 900;
+  font-size: 1.05rem;
+  user-select: none;
+}
+
+.zine-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.25rem 0.7rem;
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  font-size: 0.98rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-navy-ink);
+  text-decoration: none;
+  border-radius: 3px;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.zine-nav-link:hover {
+  background: var(--color-blue-light);
+  color: var(--color-navy-ink);
+  transform: translateY(-1px);
+}
+
+.zine-nav-link--active,
+.zine-nav-link[aria-current='page'] {
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  box-shadow: 2px 2px 0 var(--color-navy-ink);
+}
+
+/* Main Content & Page Transition (RNF-01, RNF-02) */
+.zine-main {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: 100%;
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3rem;
+  animation: zinePageEnter 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes zinePageEnter {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Cat Sprite & Discrete Motion (RV-04, RNF-01) */
+.cat-sprite-picture {
+  display: inline-block;
+  line-height: 0;
+}
+
+.cat-sprite-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(4px 6px 0 rgba(8, 16, 40, 0.14));
+}
+
+.cat-anim-float {
+  animation: catFloat 3.6s ease-in-out infinite;
+}
+
+.cat-anim-breathe {
+  animation: catBreathe 4s ease-in-out infinite;
+}
+
+@keyframes catFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-0.8deg);
+  }
+}
+
+@keyframes catBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.018) translateY(-2px);
+  }
+}
+
+/* Shared Buttons, Badges & Placeholders */
+.zine-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.85rem;
+  padding: 0.55rem 1.2rem;
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: var(--border-ink-thick);
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+  box-shadow: var(--shadow-hard-sm);
+  transition:
+    transform 130ms ease,
+    box-shadow 130ms ease,
+    background-color 130ms ease;
+}
+
+.zine-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--color-navy-ink);
+}
+
+.zine-btn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--color-navy-ink);
+}
+
+.zine-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.zine-btn--primary {
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+}
+
+.zine-btn--primary:hover:not(:disabled) {
+  background: var(--color-blue-vibrant-hover);
+}
+
+.zine-btn--outline {
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+}
+
+.zine-btn--tag {
+  background: var(--color-blue-light);
+  color: var(--color-navy-ink);
+}
+
+.zine-btn--chip {
+  background: var(--color-blue-light);
+  color: var(--color-navy-ink);
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+}
+
+.zine-btn--close {
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  min-height: 2.5rem;
+  padding: 0.4rem 0.95rem;
+}
+
+.zine-btn--submit {
+  width: 100%;
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  font-size: 1.08rem;
+  padding: 0.8rem 1.25rem;
+}
+
+.zine-btn--confirm {
+  background: var(--color-success);
+  color: var(--color-cream-surface);
+}
+
+.zine-btn--ghost {
+  background: transparent;
+  box-shadow: none;
+  border-style: dashed;
+}
+
+.zine-btn--small {
+  min-height: 2.3rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.zine-placeholder-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  padding: 0.4rem 0.8rem;
+  background: var(--color-cream-surface);
+  border: 2px dashed var(--color-navy-ink);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-navy-ink);
+}
+
+.zine-placeholder-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-blue-vibrant);
+  flex-shrink: 0;
+}
+
+.zine-tag-chip {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--color-cream-surface);
+  border: 2px solid var(--color-navy-ink);
+  font-family: var(--font-comic-label);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 2px 2px 0 var(--color-navy-ink);
+}
+
+.zine-display-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-navy-ink);
+  transform: rotate(-1.5deg);
+}
+
+.zine-cutout-banner {
+  display: inline-block;
+  background: var(--color-navy-deep);
+  color: var(--color-cream-surface);
+  padding: 0.55rem 1.35rem;
+  border: 3px solid var(--color-navy-ink);
+  box-shadow: 5px 5px 0 var(--color-blue-light);
+  transform: rotate(-1.5deg);
+  margin-bottom: 0.75rem;
+}
+
+.zine-cutout-banner--sub {
+  transform: rotate(-0.8deg);
+  padding: 0.4rem 1.1rem;
+}
+
+.zine-cutout-banner--drawer {
+  margin-bottom: 0;
+  transform: rotate(-0.5deg);
+}
+
+.zine-cutout-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.zine-cutout-subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.8vw, 1.85rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+/* Zine Illustrated Canvas Artworks (for mockups 01, 02, 03) */
+.zine-art-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 185px;
+  background-color: var(--color-blue-light);
+  background-image: radial-gradient(
+    rgba(0, 56, 248, 0.25) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 7px 7px;
+  border: var(--border-ink-thick);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zine-art-canvas--pyramids {
+  background-color: var(--color-blue-vibrant);
+  background-image: radial-gradient(
+    rgba(255, 249, 232, 0.22) 1.5px,
+    transparent 1.5px
+  );
+}
+
+.zine-art-canvas--waves {
+  background-color: var(--color-cream-surface);
+}
+
+.zine-art-canvas--polaroid {
+  min-height: 230px;
+}
+
+.zine-art-sun {
+  position: absolute;
+  top: 22px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-cream-surface);
+  border: 3px solid var(--color-navy-ink);
+}
+
+.zine-art-mountain-back {
+  position: absolute;
+  bottom: -10px;
+  left: -10%;
+  width: 75%;
+  height: 65%;
+  background: var(--color-blue-vibrant);
+  border-top: 3px solid var(--color-navy-ink);
+  clip-path: polygon(0 100%, 42% 10%, 88% 100%);
+}
+
+.zine-art-canvas--pyramids .zine-art-mountain-back {
+  background: var(--color-navy-ink);
+}
+
+.zine-art-mountain-front {
+  position: absolute;
+  bottom: -10px;
+  right: -8%;
+  width: 70%;
+  height: 55%;
+  background-color: var(--color-cream-surface);
+  background-image: radial-gradient(
+    var(--color-blue-vibrant) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 6px 6px;
+  border-top: 3px solid var(--color-navy-ink);
+  clip-path: polygon(10% 100%, 55% 15%, 100% 100%);
+}
+
+.zine-stamp-badge {
+  position: relative;
+  z-index: 2;
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+  border: 3px solid var(--color-navy-ink);
+  padding: 0.35rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-6deg);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.zine-stamp-badge--corner {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.6rem;
+}
+
+/* ==========================================================================
+   PAGE 1: INÍCIO (RF-03)
+   ========================================================================== */
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2.75rem;
+}
+
+.home-kicker {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+.home-display-banner {
+  display: inline-block;
+  background: var(--color-blue-light);
+  border: var(--border-ink-thick);
+  padding: 0.4rem 1.25rem;
+  box-shadow: var(--shadow-hard);
+  transform: rotate(-2deg);
+  margin: 0.25rem 0 0.75rem;
+}
+
+.home-display-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--color-navy-ink);
+}
+
+.home-role-title {
+  margin: 0.35rem 0;
+  font-family: var(--font-comic-label);
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.home-lead {
+  margin: 0.25rem 0 1.25rem;
+  font-size: 1.12rem;
+  max-width: 34rem;
+}
+
+.home-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.cat-stage--home {
+  max-width: 410px;
+  margin: 0 auto;
+}
+
+.home-preview-section {
+  display: grid;
+  grid-template-columns: 0.85fr 1.45fr;
+  gap: 1.75rem;
+  align-items: center;
+  padding-top: 1.25rem;
+  border-top: 3px dashed rgba(8, 16, 40, 0.25);
+}
+
+.zine-section-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  line-height: 1.05;
+  transform: rotate(-1.5deg);
+}
+
+.home-preview-sub {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.home-featured-frame {
+  background: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard);
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.home-featured-title {
+  margin: 0.4rem 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.home-featured-desc {
+  margin: 0 0 0.75rem;
+  font-size: 0.94rem;
+}
+
+.home-featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.zine-link-arrow {
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: var(--color-blue-vibrant);
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-blue-vibrant);
+}
+
+/* ==========================================================================
+   PAGE 2: PROJETOS (RF-04)
+   ========================================================================== */
+.projects-header-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.projects-subtitle-brush {
+  display: inline-block;
+  margin: 0.5rem 0;
+  padding: 0.3rem 0.85rem;
+  background: var(--color-blue-light);
+  border: 2px solid var(--color-navy-ink);
+  font-weight: 700;
+  font-size: 1.05rem;
+  transform: rotate(-1deg);
+}
+
+.projects-header-cat {
+  max-width: 340px;
+  justify-self: end;
+}
+
+.projects-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.project-card {
+  background: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard);
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-card--featured {
+  grid-row: span 2;
+}
+
+.project-card--horizontal {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 1.15rem;
+  align-items: start;
+}
+
+.project-card-title {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+}
+
+.project-card-section {
+  margin-top: 0.65rem;
+}
+
+.project-meta-label {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-comic-label);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--color-blue-vibrant);
+}
+
+.project-card-text {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.project-tech-pills {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.project-tech-pill {
+  padding: 0.2rem 0.65rem;
+  background: var(--color-blue-light);
+  border: 2px solid var(--color-navy-ink);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.project-card-expanded {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 2px dashed var(--color-navy-ink);
+}
+
+.project-links-pending {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.project-card-footer {
+  margin-top: 0.85rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.projects-bottom-banner {
+  margin-top: 2rem;
+  padding: 1.15rem 1.5rem;
+  background: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
 }
-a {
-  color: #153ed5;
-}
-a[aria-current='page'] {
+
+.projects-bottom-text {
+  margin: 0;
   font-weight: 700;
 }
-:focus-visible {
-  outline: 3px solid #153ed5;
-  outline-offset: 4px;
+
+/* ==========================================================================
+   PAGE 3: SOBRE & INTERACTIVE STACK PANELS (RF-05, RF-07, RF-08)
+   ========================================================================== */
+.about-top-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2.25rem;
+}
+
+.about-lead {
+  font-size: 1.12rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.about-bio-card {
+  background: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard);
+  padding: 1.1rem 1.25rem;
+}
+
+.about-polaroid-frame {
+  position: relative;
+  max-width: 390px;
+  margin: 0 auto;
+  background: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  padding: 1rem 1rem 2.4rem;
+  box-shadow: -8px 8px 0 var(--color-blue-vibrant);
+  transform: rotate(-2.5deg);
+}
+
+.about-polaroid-tape {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 110px;
+  height: 30px;
+  background: var(--color-cream-muted);
+  border: 2px solid var(--color-navy-ink);
+  z-index: 3;
+}
+
+.about-polaroid-cat {
+  position: absolute;
+  right: -24px;
+  bottom: -26px;
+  width: 245px;
+  z-index: 4;
+}
+
+.about-stacks-section {
+  margin-top: 1.5rem;
+}
+
+.about-stacks-hint {
+  margin: 0.25rem 0 2.5rem;
+  font-size: 0.96rem;
+}
+
+.stack-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.35rem;
+  align-items: stretch;
+  padding-top: 2.25rem;
+}
+
+.stack-category-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Peeking Cat Positioned Per Category (RF-07) */
+.stack-peek-cat {
+  position: absolute;
+  top: -78px;
+  width: 155px;
+  pointer-events: none;
+  z-index: 3;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.95);
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Frontend -> Diagonal Left */
+.stack-peek-cat--diag-left {
+  left: 10px;
+}
+
+/* Backend -> Center */
+.stack-peek-cat--center {
+  left: 50%;
+  transform: translate(-50%, 14px) scale(0.95);
+}
+
+/* Integrações -> Diagonal Right */
+.stack-peek-cat--diag-right {
+  right: 10px;
+}
+
+.stack-peek-cat--visible.stack-peek-cat--diag-left,
+.stack-peek-cat--visible.stack-peek-cat--diag-right {
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.stack-peek-cat--visible.stack-peek-cat--center {
+  visibility: visible;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.stack-category-btn {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 175px;
+  padding: 1.15rem 1rem;
+  background: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  text-align: center;
+  color: var(--color-navy-ink);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.stack-category-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-blue-vibrant);
+}
+
+.stack-category-btn--active {
+  background: var(--color-blue-light);
+  border-color: var(--color-blue-vibrant);
+  border-width: 4px;
+  box-shadow: 6px 6px 0 var(--color-blue-vibrant);
+}
+
+.stack-category-art {
+  width: 108px;
+  height: 84px;
+}
+
+.category-art-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.stack-category-label {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--color-blue-vibrant);
+  padding-bottom: 2px;
+}
+
+.stack-category-state-indicator {
+  font-family: var(--font-comic-label);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--color-navy-ink);
+}
+
+/* Open Stack Drawer Panel (Mockup 05-stacks.png) */
+.stack-drawer {
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 1.35rem;
+  background: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  box-shadow: var(--shadow-hard);
+  animation: zinePageEnter 180ms ease-out;
+}
+
+.stack-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.stack-drawer-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  color: var(--color-cream-surface);
+}
+
+.stack-drawer-description {
+  margin: 0 0 1.15rem;
+  font-size: 0.96rem;
+}
+
+.stack-items-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.stack-item-card {
+  background: var(--color-cream-bg);
+  border: var(--border-ink-thick);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: 3px 3px 0 var(--color-navy-ink);
+}
+
+.stack-item-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.stack-item-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.stack-item-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-comic-label);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.stack-item-summary {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.about-bottom-cta {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.zine-splash-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.4rem;
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transform: rotate(-2deg);
+}
+
+/* ==========================================================================
+   PAGE 4: CONTATO (RF-06)
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.contact-display-title {
+  margin-bottom: 0.45rem;
+}
+
+.contact-subtitle {
+  margin: 0.35rem 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.contact-channels-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.contact-channel-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem 1.1rem;
+  border: var(--border-ink-thick);
+  box-shadow: var(--shadow-hard-sm);
+  text-decoration: none;
+}
+
+.contact-channel-card--primary {
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+}
+
+.contact-channel-card--secondary {
+  background: var(--color-blue-light);
+  color: var(--color-navy-ink);
+}
+
+.contact-channel-card--link {
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+}
+
+.contact-channel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.contact-channel-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-channel-title {
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.contact-channel-status {
+  font-size: 0.84rem;
+  opacity: 0.92;
+}
+
+.contact-cat-wrapper {
+  max-width: 310px;
+}
+
+.contact-form-card {
+  background: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  box-shadow: var(--shadow-hard);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contact-service-banner {
+  padding: 0.65rem 0.9rem;
+  background: var(--color-cream-bg);
+  border-left: 4px solid var(--color-blue-vibrant);
+  font-size: 0.88rem;
+}
+
+.zine-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.zine-label {
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zine-input,
+.zine-textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-navy-ink);
+  background: var(--color-cream-bg);
+  border: var(--border-ink-thick);
+  border-radius: 4px;
+}
+
+.zine-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.zine-feedback-box {
+  padding: 0.75rem 1rem;
+  border: var(--border-ink-thick);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.zine-feedback-box--error {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.zine-feedback-box--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.zine-feedback-box--info,
+.zine-feedback-box--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: var(--color-navy-ink);
+}
+
+/* ==========================================================================
+   PAGE 5: MURAL DE ASSINATURAS — GRAFITE ANOS 90 (RF-09 to RF-14)
+   ========================================================================== */
+.mural-hero-banner {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  padding: 1.25rem;
+  background: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  box-shadow: var(--shadow-hard);
+}
+
+.mural-hero-kicker {
+  margin: 0.25rem 0;
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  color: var(--color-blue-vibrant);
+  letter-spacing: 0.05em;
+}
+
+.mural-hero-desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.98rem;
+}
+
+.mural-hero-cat {
+  max-width: 210px;
+  justify-self: center;
+}
+
+.mural-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.mural-composer-panel {
+  background: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  box-shadow: var(--shadow-hard);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mural-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mural-panel-title,
+.mural-wall-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.mural-fieldset {
+  border: 2px solid var(--color-navy-ink);
+  padding: 0.75rem;
+  margin: 0;
+  background: var(--color-cream-bg);
+}
+
+.mural-mode-tabs,
+.mural-swatch-row,
+.mural-font-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.mural-mode-btn,
+.mural-swatch-btn,
+.mural-font-btn,
+.mural-brush-btn {
+  min-height: 2.4rem;
+  padding: 0.35rem 0.75rem;
+  border: 2px solid var(--color-navy-ink);
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+  font-family: var(--font-comic-label);
+  font-weight: 800;
+  font-size: 0.86rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mural-mode-btn--active,
+.mural-swatch-btn--selected,
+.mural-font-btn--selected,
+.mural-brush-btn--active {
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+  box-shadow: 2px 2px 0 var(--color-navy-ink);
+}
+
+.mural-swatch-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--color-navy-ink);
+  flex-shrink: 0;
+}
+
+.mural-drawing-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mural-drawing-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mural-brush-group {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.mural-canvas-frame {
+  background: var(--color-cream-surface);
+  background-image:
+    linear-gradient(rgba(8, 16, 40, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 16, 40, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  border: var(--border-ink-thick);
+  box-shadow: inset 0 0 0 2px var(--color-blue-light);
+}
+
+.mural-canvas-frame--dark {
+  background: #131c3e;
+  background-image:
+    linear-gradient(rgba(255, 249, 232, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 249, 232, 0.08) 1px, transparent 1px);
+}
+
+.mural-interactive-canvas {
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.mural-canvas-caption {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-navy-ink);
+}
+
+.mural-preview-brick {
+  background: var(--color-navy-deep);
+  color: var(--color-cream-surface);
+  padding: 0.9rem;
+  border: var(--border-ink-thick);
+}
+
+.mural-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+}
+
+.mural-preview-tag {
+  background: var(--color-blue-vibrant);
+  padding: 0.15rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.mural-composer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.mural-confirm-box {
+  width: 100%;
+  padding: 0.95rem;
+  background: var(--color-cream-bg);
+  border: 3px solid var(--color-blue-vibrant);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.mural-confirm-prompt {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+}
+
+.mural-confirm-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+/* Urban Graffiti Wall Section (RF-09, RF-14) */
+.mural-wall-section {
+  background-color: var(--color-navy-deep);
+  background-image:
+    radial-gradient(rgba(74, 131, 255, 0.18) 1.5px, transparent 1.5px),
+    linear-gradient(
+      180deg,
+      rgba(21, 62, 213, 0.18) 0%,
+      rgba(4, 8, 23, 0.95) 100%
+    );
+  background-size:
+    12px 12px,
+    100% 100%;
+  color: var(--color-cream-surface);
+  border: var(--border-ink-heavy);
+  box-shadow: var(--shadow-hard);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mural-wall-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 2px dashed rgba(168, 200, 248, 0.35);
+  padding-bottom: 0.85rem;
+}
+
+.mural-wall-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.88rem;
+  color: var(--color-blue-light);
+}
+
+.mural-wall-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.mural-wall-card {
+  position: relative;
+  background: #172352;
+  border: 3px solid var(--color-cream-surface);
+  box-shadow: 4px 4px 0 var(--color-blue-vibrant);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+}
+
+.mural-wall-card--preview {
+  min-height: 130px;
+}
+
+.mural-wall-card--tilt-0 {
+  transform: rotate(-1deg);
+}
+.mural-wall-card--tilt-1 {
+  transform: rotate(0.8deg);
+}
+.mural-wall-card--tilt-2 {
+  transform: rotate(-0.6deg);
+}
+.mural-wall-card--tilt-3 {
+  transform: rotate(1.1deg);
+}
+
+.mural-wall-card-art {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: var(--color-cream-surface);
+  background-image: radial-gradient(rgba(8, 16, 40, 0.08) 1px, transparent 1px);
+  background-size: 10px 10px;
+  border: 2px solid var(--color-navy-ink);
+  overflow: hidden;
+}
+
+.mural-wall-card-art--dark {
+  background: #101836;
+  background-image: radial-gradient(
+    rgba(255, 249, 232, 0.12) 1px,
+    transparent 1px
+  );
+  border-color: var(--color-blue-light);
+}
+
+.mural-card-canvas {
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+}
+
+.mural-signature-text {
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  text-align: center;
+  word-break: break-word;
+}
+
+.mural-signature-text--marker {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  transform: rotate(-2deg);
+}
+
+.mural-signature-text--block {
+  font-family: var(--font-comic-label);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 2px solid currentColor;
+  padding: 0.2rem 0.5rem;
+}
+
+.mural-signature-text--script {
+  font-family: var(--font-script);
+  font-size: 1.75rem;
+  font-style: italic;
+}
+
+.mural-wall-card-footer {
+  margin-top: 0.6rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(255, 249, 232, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--color-cream-surface);
+}
+
+.mural-signer-name {
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mural-signer-date,
+.mural-signer-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-blue-light);
+}
+
+.mural-state-card {
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+  border: var(--border-ink-thick);
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mural-state-card--error {
+  border-color: var(--color-danger);
+}
+
+.mural-state-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.mural-state-sub {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.mural-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 2px dashed rgba(168, 200, 248, 0.35);
+}
+
+.mural-page-indicator {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--color-cream-surface);
+}
+
+/* Footer */
+.zine-footer {
+  position: relative;
+  z-index: 5;
+  background: var(--color-navy-deep);
+  color: var(--color-cream-surface);
+  border-top: 4px solid var(--color-navy-ink);
+  padding: 1.15rem 1.25rem;
+}
+
+.zine-footer-inner {
+  max-width: 74rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.zine-footer-note {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.zine-footer-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.zine-footer-prompt {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+}
+
+.zine-btn--footer {
+  min-height: 2.4rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--color-cream-surface);
+  color: var(--color-navy-ink);
+}
+
+.zine-btn--footer-alt {
+  min-height: 2.4rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--color-blue-vibrant);
+  color: var(--color-cream-surface);
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (RNF-03: Mobile, Tablet, Desktop, No Horizontal Scroll)
+   ========================================================================== */
+@media (max-width: 960px) {
+  .home-hero-grid,
+  .home-preview-section,
+  .projects-header-row,
+  .projects-bento-grid,
+  .about-top-grid,
+  .contact-grid,
+  .mural-hero-banner,
+  .mural-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-polaroid-cat {
+    right: -8px;
+    width: 195px;
+  }
+}
+
+@media (max-width: 680px) {
+  .zine-corner {
+    display: none;
+  }
+
+  .zine-main {
+    padding: 1.25rem 0.9rem 2.5rem;
+  }
+
+  .zine-topbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .zine-brand-badge {
+    align-self: flex-start;
+  }
+
+  .zine-nav {
+    justify-content: space-between;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .zine-nav-slash {
+    display: none;
+  }
+
+  .zine-nav-link {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.88rem;
+  }
+
+  .home-featured-frame,
+  .project-card--horizontal {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-categories-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .stack-items-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   PREFERS-REDUCED-MOTION (RNF-02)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .cat-anim-float,
+  .cat-anim-breathe,
+  .zine-main,
+  .stack-drawer {
+    animation: none !important;
+  }
+
+  .stack-peek-cat {
+    transition: none !important;
+  }
 }
